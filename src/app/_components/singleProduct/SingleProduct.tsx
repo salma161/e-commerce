@@ -9,8 +9,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SingleProduct({ product }) {
+
   return (
     <>
       <div className="w-full md:w-1/2 lg:w-1/4 xl:w-1/5">
@@ -20,7 +22,7 @@ export default function SingleProduct({ product }) {
               <CardHeader className="dark:bg-gray-700">
                 <CardTitle className="dark:bg-gray-700">
                   <div className="relative overflow-hidden">
-                    <img src={product.imageCover} alt="" />
+                    <Image src={product.imageCover} alt="product" width={500} height={500} />
                     <button
                       type="button"
                       className="absolute w-full bottom-0 translate-y-36 group-hover:translate-y-0 transition-all duration-300 cursor-pointer  text-white bg-main hover:bg-main-dark  focus:outline-none font-medium text-sm px-4 py-2 text-center dark:bg-main dark:hover:bg-main-dark"

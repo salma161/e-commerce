@@ -12,7 +12,7 @@ export default async function ProductDetails({ params }) {
 
   return (
     <>
-      <div className="py-12">
+      <div className="container w-[80%] mx-auto my-12">
         <SingleProductDetails data={data} />
       </div>
     </>
