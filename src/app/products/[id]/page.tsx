@@ -4,11 +4,14 @@ import SingleProduct from "@/app/_components/singleProduct/SingleProduct";
 import React from "react";
 ("./../../_components/productDetails/ProductDetails");
 
-export default async function ProductDetails({ params }) {
+export default async function ProductDetails({
+  params,
+}: {
+  params: { id: string };
+}) {
   let { id } = await params;
   let data = await SelectedProduct(id);
   console.log(data);
-  
 
   return (
     <>

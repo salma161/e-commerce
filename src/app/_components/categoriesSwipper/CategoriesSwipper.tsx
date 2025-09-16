@@ -5,8 +5,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay, Pagination } from "swiper/modules";
 import Image from "next/image";
+import { categoryType } from "@/types/category.type";
 
-export default function CategoriesSwipper({ data }) {
+export default function CategoriesSwipper({ data }: {data: categoryType[]}) {
   
   return (
     <>
@@ -16,7 +17,7 @@ export default function CategoriesSwipper({ data }) {
         modules={[Autoplay]}
         autoplay={{ delay: 3000 }}
       >
-        {data.map((category) => (
+        {data.map((category: categoryType) => (
           <SwiperSlide key={category._id}>
             <Image
               src={category.image}

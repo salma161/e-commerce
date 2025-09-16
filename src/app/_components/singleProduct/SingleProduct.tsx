@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
+import { productType } from "@/types/product.type";
 
-export default function SingleProduct({ product }) {
+export default function SingleProduct({ product } : {product: productType}) {
 
   return (
     <>

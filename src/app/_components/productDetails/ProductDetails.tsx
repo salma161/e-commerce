@@ -6,8 +6,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { productType } from "@/types/product.type";
 
-export default function SingleProductDetails({ data }) {
+export default function SingleProductDetails({ data }:{data: productType}) {
   return (
     <>
       <div className="flex flex-wrap mt-28 dark:text-white">
