@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import "./globals.css";
 import Navbar from "./_components/navbar/Navbar";
+import { Toaster } from "@/components/ui/sonner"
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark:!bg-gray-800`}
       >
         <Navbar />
+        <Toaster />
         {children}
 
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
