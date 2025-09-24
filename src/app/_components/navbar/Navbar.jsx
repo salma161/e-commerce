@@ -1,11 +1,16 @@
 "use client";
 import clsx from "clsx";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 export default function Navbar() {
   let path = usePathname();
+  const { data: session, status } = useSession();
+  function logout() {
+    signOut({ callbackUrl: "/login" });
+  }
 
   return (
     <>
@@ -22,31 +27,44 @@ export default function Navbar() {
               SHOPIE
             </h1>
           </Link>
-          <div className="flex gap-2 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <Link href="/register">
-              <button
-                type="button"
-                className="cursor-pointer text-white bg-main hover:bg-main-dark  focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-main dark:hover:bg-main-dark"
-              >
-                Sign-up
-              </button>
-            </Link>
-            <Link href="/login">
-              <button
-                type="button"
-                className="cursor-pointer text-white bg-main hover:bg-main-dark  focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-main dark:hover:bg-main-dark"
-              >
-                Login
-              </button>
-            </Link>
-            <Link href="/login">
-              <button
-                type="button"
-                className="cursor-pointer text-white bg-main hover:bg-main-dark  focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-main dark:hover:bg-main-dark"
-              >
-                Sign-out
-              </button>
-            </Link>
+          <div className="flex items-center gap-2 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            {session && (
+              <span className="text-gray-600 font-semibold me-2 dark:text-gray-100">
+                Hi, {session.user.name}
+              </span>
+            )}
+
+            {!session ? (
+              <>
+                <Link href="/register">
+                  <button
+                    type="button"
+                    className="cursor-pointer text-white bg-main hover:bg-main-dark  focus:outline-none font-medium rounded-sm text-sm px-4 py-2 text-center dark:bg-main dark:hover:bg-main-dark"
+                  >
+                    Sign-up
+                  </button>
+                </Link>
+                <Link href="/login">
+                  <button
+                    type="button"
+                    className="cursor-pointer text-white bg-main hover:bg-main-dark  focus:outline-none font-medium rounded-sm text-sm px-4 py-2 text-center dark:bg-main dark:hover:bg-main-dark"
+                  >
+                    Login
+                  </button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={logout}
+                  type="button"
+                  className="cursor-pointer text-white bg-main hover:bg-main-dark  focus:outline-none font-medium rounded-sm text-sm px-4 py-2 text-center dark:bg-main dark:hover:bg-main-dark"
+                >
+                  Sign-out
+                </button>
+              </>
+            )}
+
             <button
               data-collapse-toggle="navbar-sticky"
               type="button"
@@ -91,19 +109,21 @@ export default function Navbar() {
                   Home
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/cart"
-                  className={clsx(
-                    "block py-2 px-3 text-gray-500 rounded-sm  md:p-0 md:dark:hover:text-main dark:text-white  dark:hover:text-white dark:border-gray-700",
-                    path === "/cart"
-                      ? "text-white bg-main rounded-sm md:bg-transparent md:text-main md:p-0 md:dark:text-main-light"
-                      : "hover:bg-gray-100 md:hover:bg-transparent dark:hover:bg-gray-800 md:hover:text-main  md:dark:hover:bg-transparent"
-                  )}
-                >
-                  Cart
-                </Link>
-              </li>
+              {session && (
+                <li>
+                  <Link
+                    href="/cart"
+                    className={clsx(
+                      "block py-2 px-3 text-gray-500 rounded-sm  md:p-0 md:dark:hover:text-main dark:text-white  dark:hover:text-white dark:border-gray-700",
+                      path === "/cart"
+                        ? "text-white bg-main rounded-sm md:bg-transparent md:text-main md:p-0 md:dark:text-main-light"
+                        : "hover:bg-gray-100 md:hover:bg-transparent dark:hover:bg-gray-800 md:hover:text-main  md:dark:hover:bg-transparent"
+                    )}
+                  >
+                    Cart
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link
                   href="/products"

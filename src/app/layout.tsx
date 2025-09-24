@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import "./globals.css";
 import Navbar from "./_components/navbar/Navbar";
-import { Toaster } from "@/components/ui/sonner"
-
+import { Toaster } from "@/components/ui/sonner";
+import MySessionProvider from "@/MySessionProvider/MySessionProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +31,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark:!bg-gray-800`}
       >
-        <Navbar />
-        <Toaster />
-        {children}
+        <MySessionProvider>
+          <Navbar />
+          <Toaster />
+          {children}
+        </MySessionProvider>
 
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
       </body>
