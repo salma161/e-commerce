@@ -1,9 +1,10 @@
 "use client";
+import { CartContext } from "@/Context/CartContext";
 import clsx from "clsx";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useContext } from "react";
 
 export default function Navbar() {
   let path = usePathname();
@@ -11,6 +12,7 @@ export default function Navbar() {
   function logout() {
     signOut({ callbackUrl: "/login" });
   }
+  const { numOfCartItems } = useContext(CartContext);
 
   return (
     <>
@@ -114,13 +116,18 @@ export default function Navbar() {
                   <Link
                     href="/cart"
                     className={clsx(
-                      "block py-2 px-3 text-gray-500 rounded-sm  md:p-0 md:dark:hover:text-main dark:text-white  dark:hover:text-white dark:border-gray-700",
+                      "block py-2 px-3 relative text-gray-500 rounded-sm  md:p-0 md:dark:hover:text-main dark:text-white  dark:hover:text-white dark:border-gray-700",
                       path === "/cart"
                         ? "text-white bg-main rounded-sm md:bg-transparent md:text-main md:p-0 md:dark:text-main-light"
                         : "hover:bg-gray-100 md:hover:bg-transparent dark:hover:bg-gray-800 md:hover:text-main  md:dark:hover:bg-transparent"
                     )}
                   >
                     Cart
+                    {numOfCartItems > 0 && (
+                      <span className="absolute flex size-4.5 bg-main-light text-sm text-white justify-center items-center rounded-full top-[25%] md:top-[-5] end-[-10]">
+                        {numOfCartItems}
+                      </span>
+                    )}
                   </Link>
                 </li>
               )}

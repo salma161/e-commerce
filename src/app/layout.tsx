@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "./_components/navbar/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import MySessionProvider from "@/MySessionProvider/MySessionProvider";
+import CartContextProvider from "@/Context/CartContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +33,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark:!bg-gray-800`}
       >
         <MySessionProvider>
-          <Navbar />
-          <Toaster />
-          {children}
+          <CartContextProvider>
+            <Navbar />
+            <Toaster />
+            {children}
+          </CartContextProvider>
         </MySessionProvider>
 
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

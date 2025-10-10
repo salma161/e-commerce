@@ -4,7 +4,6 @@ import CategoriesSwipper from "../categoriesSwipper/CategoriesSwipper";
 
 export default async function CategoriesSlider() {
   let data = await getAllCategories();
-  console.log(data);
 
   return (
     <>

@@ -36,7 +36,7 @@ export default function Register() {
         "https://ecommerce.routemisr.com/api/v1/auth/signup",
         values
       );
-      console.log(res);
+      
       if (res.data.message === "success") {
         toast.success("Account created successfully!", {
           position: "top-center",
@@ -45,7 +45,7 @@ export default function Register() {
         router.push("/login");
       }
     } catch (err: any) {
-      console.log(err);
+     
 
       toast.error(err.response.data.message, {
         position: "top-center",

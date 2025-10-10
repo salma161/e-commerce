@@ -7,8 +7,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { productType } from "@/types/product.type";
+import AddBtn from "../AddBtn/AddBtn";
 
-export default function SingleProductDetails({ data }:{data: productType}) {
+export default function SingleProductDetails({ data }: { data: productType }) {
   return (
     <>
       <div className="flex flex-wrap mt-28 dark:text-white">
@@ -45,13 +46,10 @@ export default function SingleProductDetails({ data }:{data: productType}) {
               {data.price} EGP
             </h3>
             <h2 className="text-gray-400 mb-3.5">{data.category.name}</h2>
-            <p className="w-full mb-5">{data.description}</p>
-            <button
-              type="button"
-              className="cursor-pointer text-white bg-main hover:bg-main-dark  focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-main dark:hover:bg-main-dark"
-            >
-              Add to cart
-            </button>
+            <p className="w-full mb-5 mt-5">{data.description}</p>
+            <div className="mt-20">
+              <AddBtn id={data.id} />
+            </div>
           </div>
         </div>
       </div>
