@@ -6,6 +6,7 @@ import updateQuantity from "@/CartActions/updateQuantity.action";
 import { CartContext } from "@/Context/CartContext";
 
 import { CartProduct } from "@/types/cart.type";
+import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -25,6 +26,7 @@ export default function Cart() {
   const [loadingUpdate, setloadingUpdate] = useState(false);
   const [currentId, setcurrentId] = useState("");
   const [total, settotal] = useState(0);
+  const [cartId, setcartId] = useState("")
 
   async function getLoggedUserCart() {
     try {
@@ -34,6 +36,9 @@ export default function Cart() {
         setProducts(res.data.products);
         setisLoading(false);
         settotal(res.data.totalCartPrice);
+        setcartId(res.cartId)
+     
+        
       }
     } catch (err) {
       console.log(err);
@@ -147,7 +152,7 @@ export default function Cart() {
               </button>
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
+              <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-16 py-3">
@@ -276,10 +281,10 @@ export default function Cart() {
                 </tbody>
               </table>
             </div>
-            <div className="cart-total my-18 flex flex-wrap justify-end">
-              <div className="border-1 rounded-sm border-gray-800 py-8 px-6 w-1/3 ">
+            <div className="cart-total my-18 flex flex-wrap justify-end dark:text-gray-100">
+              <div className="border-1 rounded-sm border-gray-300 dark:border-gray-400 py-8 px-6 w-full lg:w-1/3 ">
                 <h1 className="text-[18px] font-semibold">Cart Total</h1>
-                <div className="flex flex-wrap justify-between border-b border-gray-500 py-5">
+                <div className="flex flex-wrap justify-between border-b border-gray-300 py-5">
                   <p>Subtotal:</p>
                   <p>{total} E£</p>
                 </div>
@@ -288,12 +293,14 @@ export default function Cart() {
                   <p>{total} E£</p>
                 </div>
                 <div className="flex flex-wrap justify-center">
+                 <Link href={`/checkout/${cartId}`}>
                   <button
                     type="button"
                     className=" cursor-pointer rounded-sm py-3 px-7  text-white bg-main hover:bg-main-dark  focus:outline-none font-medium text-sm text-center dark:bg-main dark:hover:bg-main-dark"
                   >
-                    Process to checkout
+                    Proceed to checkout
                   </button>
+                 </Link>
                 </div>
               </div>
             </div>
