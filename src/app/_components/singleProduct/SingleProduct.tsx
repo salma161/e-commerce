@@ -42,7 +42,7 @@ export default function SingleProduct({ product }: { product: productType }) {
               <CardFooter>
                 <div className="flex justify-between items-center w-full mt-3">
                   <span className="text-sm text-main-dark font-semibold dark:text-main-lighter">
-                    {product.price} EGP
+                    {product.price} E£
                   </span>
                   <div className="flex gap-1 items-center">
                     <span className="text-sm ">
