@@ -1,89 +1,69 @@
-import React from "react";
+"use client";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import test from "../../../public/images/3515938.jpg";
+import { CartContext } from "@/Context/CartContext";
+import getUserOrders from "@/allordersActions/getUserOrders.action";
+import Orders from "../_components/Orders/Orders";
 
 export default function allorders() {
+  const cartContext = useContext(CartContext);
+  const [allOrders, setallOrders] = useState([]);
+  const [isLoading, setisLoading] = useState(true);
+
+  if (!cartContext) {
+    throw new Error("Cart component must be used within CartContextProvider");
+  }
+  const { userId } = cartContext;
+  async function getOrders() {
+    try {
+      let res = await getUserOrders(userId);
+      console.log(userId, res);
+      if (res) {
+        setallOrders(res);
+        setisLoading(false);
+      }
+    } catch (err) {
+      throw new Error();
+    }
+  }
+
+  useEffect(() => {
+    if (userId) {
+      getOrders();
+    }
+  }, [userId]);
+
+  if (isLoading) {
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <div className="p-3 animate-spin drop-shadow-2xl bg-gradient-to-bl from-pink-400 via-purple-400 to-indigo-600 md:w-48 md:h-48 h-32 w-32 aspect-square rounded-full">
+          <div className="rounded-full h-full w-full bg-slate-100 dark:bg-gray-800 background-blur-md"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container w-[60%] mx-auto my-12">
       <div className="mt-28 dark:text-white">
         <div className="mb-4">
-          <h1 className="text-3xl mb-2 font-semibold text-gray-700">
+          <h1 className="text-3xl mb-2 font-semibold text-gray-700 dark:text-gray-100">
             My Orders
           </h1>
-          <p className="text-gray-500">1 order found</p>
+          <p className="text-gray-500 dark:text-gray-200">
+            {allOrders.length} orders found
+          </p>
         </div>
-        <div className="rounded-sm shadow shadow-gray-400 mt-7">
-          <div className="flex flex-wrap bg-gray-100 pb-3 shadow-sm">
-            <div className="w-1/2 pt-2 ps-2">
-              <h2 className="text-xl  mb-1 font-semibold text-gray-700">
-                Order #345678
-              </h2>
-              <p className="text-gray-500">Placed on 12 oct</p>
-            </div>
-            <div className="w-1/2 text-end relative">
-              <span className="bg-main-light text-gray-100 p-1 rounded-sm text-sm mb-4">
-                Paid - Processing
-              </span>
-              <p className="text-2xl font-semibold text-main mt-2 me-2">
-                4,400 E£
-              </p>
-            </div>
-          </div>
-          <div className="shipping p-4 mt-2">
-            <div className="title flex flex-wrap items-center font-medium">
-              <i className="fa-solid fa-location-dot text-main"></i>
-              <h3 className="ms-1 text-xl text-gray-700">Shipping Address</h3>
-            </div>
-            <div className="address p-4">
-              <div className="p-2 bg-gray-100 rounded-sm text-gray-700 shadow-sm">
-                <p>Cairo</p>
-                <p>Cairo</p>
-                <p>01295794894</p>
-              </div>
-            </div>
-          </div>
-          <div className="payment p-4 mt-2">
-            <div className="title flex flex-wrap items-center font-medium">
-              <i className="fa-solid fa-credit-card text-main"></i>
-              <h3 className="ms-1 text-xl text-gray-700">Payment Method</h3>
-            </div>
-            <div className="address p-4">
-              <span className="border border-gray-300 rounded-sm  p-1 me-2 text-gray-500">
-                credit card
-              </span>
-              <span className=" text-emerald-500">
-                <i className="fa-solid fa-circle-check"></i>
-                <span>Paid</span>
-              </span>
-            </div>
-          </div>
-          <div className="items p-4 mt-2">
-            <div className="title flex flex-wrap items-center font-medium">
-              <i className="fa-solid fa-credit-card text-main"></i>
-              <h3 className="ms-1 text-xl text-gray-700">Order Items (3)</h3>
-            </div>
-            <div className="item p-2 border border-gray-200 m-4 rounded-sm shadow-sm">
-              <div className="item-inner flex flex-wrap">
-                <div className="left-part w-1/2 flex flex-wrap items-center">
-                  <div className="photo w-1/3">
-                    <Image src={test} alt="test" className="rounded-sm" />
-                  </div>
-                  <div className="desc w-2/3 mt-3 ps-2">
-                    <h3 className="text-xl font-medium text-gray-700">
-                      Item Title
-                    </h3>
-                    <span className="text-gray-500">category • </span>
-                    <span className="text-gray-500">brand</span>
-                  </div>
-                </div>
-                <div className="right-part w-1/2 text-end pe-2 flex flex-wrap flex-col justify-center">
-                  <p className="text-xl font-medium text-gray-700">430 E£</p>
-                  <p className="text-gray-500">Qty: 2</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {allOrders.length < 1 ? (
+          <h2 className="text-center mt-5 text-4xl text-gray-600 dark:text-white">
+            No orders to show
+          </h2>
+        ) : (
+          <>
+            <Orders userId={userId} />
+          </>
+        )}
       </div>
     </div>
   );

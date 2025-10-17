@@ -3,13 +3,14 @@
 import getUserCart from "@/CartActions/getUserCart.action";
 import { createContext, useEffect, useState, ReactNode } from "react";
 
-// Define the type for your context
 export interface CartContextType {
   numOfCartItems: number;
   setnumOfCartItems: React.Dispatch<React.SetStateAction<number>>;
+  userId: string | null;
+  setUserId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-// Create the context with this type
+
 export const CartContext = createContext<CartContextType | undefined>(undefined);
 
 interface CartContextProviderProps {
@@ -18,11 +19,19 @@ interface CartContextProviderProps {
 
 export default function CartContextProvider({ children }: CartContextProviderProps) {
   const [numOfCartItems, setnumOfCartItems] = useState<number>(0);
+  const [userId, setUserId] = useState<string | null>(null);
 
   async function getUserCartData() {
     try {
       const res = await getUserCart();
+
       if (res.status === "success") {
+       
+        setUserId(res.data.cartOwner);
+        console.log(userId, res);
+        
+
+        
         const sum = res.data.products.reduce(
           (total: number, product: any) => total + product.count,
           0
@@ -30,7 +39,7 @@ export default function CartContextProvider({ children }: CartContextProviderPro
         setnumOfCartItems(sum);
       }
     } catch {
-      console.log("not login");
+      console.log("not logged in");
     }
   }
 
@@ -39,7 +48,9 @@ export default function CartContextProvider({ children }: CartContextProviderPro
   }, []);
 
   return (
-    <CartContext.Provider value={{ numOfCartItems, setnumOfCartItems }}>
+    <CartContext.Provider
+      value={{ numOfCartItems, setnumOfCartItems, userId, setUserId }}
+    >
       {children}
     </CartContext.Provider>
   );

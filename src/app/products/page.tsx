@@ -3,7 +3,7 @@ import React from "react";
 import AllProducts from "../_components/allProducts/AllProducts";
 
 export default async function Products() {
-  let data = await getProducts();
+  let data = await getProducts(undefined);
 
   return (
     <>
