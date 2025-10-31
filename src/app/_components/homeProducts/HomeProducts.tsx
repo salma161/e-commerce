@@ -6,7 +6,6 @@ export default function HomeProducts() {
   return (
     <>
       <div className="">
-        <div className="flex flex-wrap"></div>
         <div className="title-banner relative text-main mb-5 mt-24">
           <i className="fa-solid fa-certificate absolute top-[5px]"></i>
           <h5 className="ms-6 text-[16px]">Our Products</h5>

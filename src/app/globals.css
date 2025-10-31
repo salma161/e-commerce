@@ -119,7 +119,6 @@
   --sidebar-accent-foreground: oklch(0.985 0.002 247.839);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
-
 }
 
 @layer base {
@@ -131,3 +130,7 @@
   }
 }
 
+.text-outline {
+  -webkit-text-stroke: 1px white;
+  color: black;
+}
